@@ -51,7 +51,9 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
-        return allJobs;
+        ArrayList<HashMap<String, String>> newAllJobs = new ArrayList<>(allJobs);
+
+        return newAllJobs;
     }
 
     /**
@@ -76,7 +78,7 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
@@ -123,6 +125,22 @@ public class JobData {
             System.out.println("Failed to load job data");
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (int i = 0; i < allJobs.size(); i++) {
+            if (allJobs.get(i).toString().toLowerCase().contains(value.toLowerCase())) {
+                if (!jobs.contains(allJobs.get(i))) {
+                    jobs.add(allJobs.get(i));
+                }
+            }
+        }
+
+        return jobs;
     }
 
 }
